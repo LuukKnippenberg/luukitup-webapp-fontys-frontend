@@ -1,7 +1,8 @@
 <template>
   <v-app>
-    <div>test</div>
-    <v-app-bar
+    <Header/>
+    
+    <!-- <v-app-bar
       app
       color="primary"
       dark
@@ -36,7 +37,7 @@
         <span class="mr-2">Latest Release</span>
         <v-icon>mdi-open-in-new</v-icon>
       </v-btn>
-    </v-app-bar>
+    </v-app-bar> -->
 
     <v-main>
       <router-view/>
@@ -45,6 +46,7 @@
 </template>
 
 <script>
+import Header from '../src/components/Header'
 
 export default {
   name: 'App',
@@ -52,5 +54,19 @@ export default {
   data: () => ({
     //
   }),
+
+  components: {
+    Header,
+  },
 };
 </script>
+
+<style lang="scss">
+@import "src/assets/css/_variables.scss";
+
+.container{
+  display: flex;
+  flex-direction: row;
+  padding: 0!important;
+}
+</style>
