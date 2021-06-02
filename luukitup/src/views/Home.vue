@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div class="main home">
     <section class="intro">
       <div class="container"> 
         
@@ -141,6 +141,7 @@ section.intro{
         right: -15px;
         bottom: -15px;
         background: $thirdColorContrast;
+        background: $fourthColor;
         color: $thirdColor;
         border-radius: 0;
       }
@@ -208,6 +209,7 @@ section.featured-projects{
         bottom: -12.5px;
         right: -12.5px;
         background: $mainColor;
+        background: $fourthColor;
         color: $mainColorContrast;
         z-index: 2;
 
@@ -271,6 +273,7 @@ section.featured-blog{
         margin-top: auto;
         margin-left: auto;
         background: $secondColor;
+        background: $fourthColor;
         color: $secondColorContrast;
         border-radius: 0;
       }
@@ -307,6 +310,7 @@ section.call-to-action{
 
     .v-btn{
       background: $thirdColorContrast;
+      background: $fourthColor;
       color: $thirdColor;
       border-radius: 0;
       position: absolute;
