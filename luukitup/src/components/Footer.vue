@@ -14,6 +14,13 @@
             </div>
         </div>
         <div class="col">
+          <h2>Informatie</h2>  
+          <ul>
+            <li>KvK 80889190</li>
+            <li>BTW (NL) NL003501564B36</li>
+          </ul>
+        </div>
+        <div class="col">
           <h2>Navigatie</h2>
           <nav>
             <ul>
@@ -24,17 +31,6 @@
               <li><v-btn text to="/Contact">Contact</v-btn></li>
             </ul>
           </nav>
-        </div>
-        <div class="col">
-          <h2>Informatie</h2>  
-          <ul>
-            <li>KvK 80889190</li>
-            <li>BTW (NL) NL003501564B36</li>
-          </ul>
-          <p>
-          
-          
-          </p>
         </div>
       </div>
     </div>

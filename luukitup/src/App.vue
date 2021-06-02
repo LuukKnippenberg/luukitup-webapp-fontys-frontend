@@ -69,7 +69,8 @@ export default {
 
 .container{
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   padding: 0!important;
+  max-width: 1400px;
 }
 </style>

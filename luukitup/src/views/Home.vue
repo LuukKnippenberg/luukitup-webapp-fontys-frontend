@@ -45,15 +45,56 @@
     <section class="featured-blog">
       <div class="container">
         <div class="title-block">
-          <h1>Laatste Blogpost</h1>
+          <h1>Laatste Blogposts</h1>
         </div>
-        <div class="featured-image">
-          <!-- <v-img lazy-src="../assets/bella.png" src="../assets/bella.png"></v-img> -->
+        <div class="row">
+          <div class="col">
+            <div class="content">
+              <div class="featured-image">
+                <!-- <v-img lazy-src="../assets/bella.png" src="../assets/bella.png"></v-img> -->
+              </div>
+              <div class="data">
+                <h2>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. </h2>
+                <p> 
+                  Lorem ipsum dolor sit amet, consectetuer adipiscing elit. 
+                  Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. 
+                  Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim...
+                </p>
+                <v-btn text to="/Blog">Lees Meer</v-btn>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+             <div class="content">
+              <div class="featured-image">
+                <!-- <v-img lazy-src="../assets/bella.png" src="../assets/bella.png"></v-img> -->
+              </div>
+              <div class="data">
+                <h2>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. </h2>
+                <p> 
+                  Lorem ipsum dolor sit amet, consectetuer adipiscing elit. 
+                  Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. 
+                  Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim...
+                </p>
+                <v-btn text to="/Blog">Lees Meer</v-btn>
+              </div>
+            </div>
+          </div>
         </div>
+        
+        
       </div>
     </section>
     <section class="call-to-action">
-      
+      <div class="container">
+        <div class="content">
+          <div class="title-block">
+            <h1>Interesse?</h1>
+          </div>
+          <p>Neem gerust contact met ons op!</p>
+          <v-btn text to="/Contact">Contact</v-btn>
+        </div>
+      </div>
     </section>
   </div>
 </template>
@@ -88,16 +129,24 @@ section.intro{
     width: 100%;
 
     .block{
-      height: 200px;
       width: 400px;
       background: white;
       color: $thirdColorContrast;
       padding: 25px;
-      //border-radius: 7px;
+      position: relative;
+      margin-bottom: 25px;
 
       .v-btn{
-        margin-top: auto;
-        margin-left: auto;
+        position: absolute;
+        right: -15px;
+        bottom: -15px;
+        background: $thirdColorContrast;
+        color: $thirdColor;
+        border-radius: 0;
+      }
+
+      p{
+        margin-bottom: 0;
       }
     }
 
@@ -108,12 +157,7 @@ section.intro{
 }
 
 section.featured-projects{
-  margin: 50px 0;
-
-  .container{
-    display: flex;
-    flex-direction: column;
-  }
+  margin: 100px 0;
 
   .title-block{
     margin-bottom: 25px;
@@ -184,6 +228,96 @@ section.featured-projects{
         }
         */
       }
+    }
+  }
+}
+
+section.featured-blog{
+  margin-bottom: 100px;
+
+  .title-block{
+    margin-bottom: 25px;
+
+    h1{
+      border-bottom: 3px solid $fourthColor;
+      color: $thirdColorContrast;
+      float: left;
+    }
+  }
+
+  .content{
+    display: flex;
+    flex-direction: row;
+
+    .featured-image{
+      background: $secondColor;
+      height: 250px;
+      width: 250px;
+      min-width: 250px;
+      min-height: 250px;
+    }
+
+    .data{
+      padding: 0 25px 0 25px;
+      max-width: 750px;
+      display: flex;
+      flex-direction: column;
+
+      h2{
+        margin-bottom: 12.5px;
+      }
+
+      .v-btn{
+        margin-top: auto;
+        margin-left: auto;
+        background: $secondColor;
+        color: $secondColorContrast;
+        border-radius: 0;
+      }
+    }
+  }
+
+  
+}
+
+section.call-to-action{
+  margin-bottom: 100px;
+
+  .container{
+    background: $mainColor;
+    display: flex;
+    flex-direction: column;
+    max-width: 350px;
+  }
+
+  .content{
+    padding: 25px;
+    position: relative;
+
+    .title-block{
+      h1{
+        color: $mainColorContrast;
+      }
+    }
+
+    p{
+      color: $mainColorContrast;
+      margin-bottom: 0;
+    }
+
+    .v-btn{
+      background: $thirdColorContrast;
+      color: $thirdColor;
+      border-radius: 0;
+      position: absolute;
+      right: -15px;
+      bottom: -15px;
+    }
+
+    .featured-image{
+      background: $mainColor;
+      height: 250px;
+      width: 250px;
     }
   }
 }

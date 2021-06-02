@@ -43,6 +43,10 @@ header{
   display: flex;
   position: relative;
 
+  .container{
+    flex-direction: row;
+  }
+
   .logo{
     height: 100%;
 
