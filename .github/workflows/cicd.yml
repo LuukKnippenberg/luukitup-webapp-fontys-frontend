@@ -57,5 +57,5 @@ jobs:
           server: 185.182.57.39
           username: CICD@luukitup.nl
           password: ${{secrets.ftp_password}}
-          server-dir: public_html/dev/luukitup/
+          server-dir: public_html/
           local-dir: ./luukitup/dist/
