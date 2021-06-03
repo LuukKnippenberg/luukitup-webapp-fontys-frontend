@@ -1,15 +1,27 @@
 <template>
   <v-container>
     
-    <section class="projectsgrid">
-      <template v-for="item in projects">
-        
-        <router-link :to="'/Projecten/Project?id='+item.id" class="item" :key="item.id">
-          <div class="featured-image" :key="item.id">
-            <v-img lazy-src="../assets/logo-3-cropped-better-white.png" :src="item.featuredImageUrl"></v-img>
+    <section class="project" :data-id="this.projects.id">
+      <div class="wrapper">
+        <div class="logo">
+          <v-img :lazy-src="this.projects.featuredImageUrl" :src="this.projects.featuredImageUrl" > </v-img>
+        </div>
+        <div class="content">
+          <div class="title-block">
+            <h1>{{this.projects.title}}</h1>
           </div>
-        </router-link>
-      </template>
+          <p>{{this.projects.description}}</p>
+        </div>
+        
+      </div>
+      
+
+      <nav>
+        <v-btn text to="/Projecten">Terug naar Projecten</v-btn>
+
+        <!-- TODO: Add Project link to Class/Database -->
+        <v-btn text href="https://www.samknippenberg.nl" target="_blank">Bekijk Project</v-btn>
+      </nav>
     </section>
     
   </v-container>
@@ -24,11 +36,12 @@ export default {
   //featuredImageUrl
   //id
   //title
-
+  
     data: () => ({
         search: "",
         loading: true,
         error: false,
+        id: "aa4a2d91-38f4-43f1-8fde-10122a3c2cf5",
         projects: [],
         headers: [
         {
@@ -50,7 +63,7 @@ export default {
     created(){
         const config = {
             method: 'get',
-            url: "/Project/All"
+            url: "/Project/"+this.id
         }
         this.$axios(config)
             .then((result) => {
@@ -70,29 +83,35 @@ export default {
 <style lang="scss">
 @import "../assets/css/_variables.scss";
 
-.projectsgrid{
-  display: grid;
-  grid-template-columns: 33% 33% 33%;
-  grid-template-rows: 300px auto 300px; 
-  column-gap: 10px;
-  row-gap: 15px;
+section.project{
+  display: flex;
   margin-top: 100px;
-  
-  .item{
-    display: flex;
-    background: $thirdColorContrast;
-    padding: 50px;
-    
-    .featured-image{
-      max-width: 100%;
-      max-height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+  flex-direction: column;
 
-      .v-image{
-        display: flex;
-        max-height: 100%;
+  .wrapper{
+    display: flex;
+    flex-direction: row;
+  }
+
+  .content{
+    margin-left: 50px;
+  }
+
+  .logo{
+    width: 150px;
+    background: $thirdColorContrast;
+  }
+
+  nav{
+    display: flex;
+    margin-top: 50px;
+    .v-btn{
+      background: $fourthColor;
+      color: $fourthColorContrast;
+      border-radius: 0;
+
+      &:last-of-type{
+        margin-left: auto;
       }
     }
   }
