@@ -25,19 +25,19 @@
             <div class="logo">
               <v-img lazy-src="../assets/Sam-logo-wit.png" src="../assets/Sam-logo-wit.png" > </v-img>
             </div>
-            <v-btn text to="/Projects">Bekijk Project</v-btn>
+            <v-btn text to="/Projecten">Bekijk Project</v-btn>
           </div>
           <div class="col">
             <div class="logo">
               <v-img lazy-src="../assets/moesapp.png" src="../assets/moesapp.png" > </v-img>
             </div>
-            <v-btn text to="/Projects">Bekijk Project</v-btn>
+            <v-btn text to="/Projecten">Bekijk Project</v-btn>
           </div>
           <div class="col">
             <div class="logo">
               <v-img lazy-src="../assets/bella.png" src="../assets/bella.png" ></v-img>
             </div>
-            <v-btn text to="/Projects">Bekijk Project</v-btn>
+            <v-btn text to="/Projecten">Bekijk Project</v-btn>
           </div>
         </div>
       </div>

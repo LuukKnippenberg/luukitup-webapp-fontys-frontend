@@ -1,16 +1,16 @@
 <template>
   <v-container>
     
-    <section class="project" :data-id="this.projects.id">
+    <section class="project" :data-id="this.project.id">
       <div class="wrapper">
         <div class="logo">
-          <v-img :lazy-src="this.projects.featuredImageUrl" :src="this.projects.featuredImageUrl" > </v-img>
+          <v-img :lazy-src="this.project.featuredImageUrl" :src="this.project.featuredImageUrl" > </v-img>
         </div>
         <div class="content">
           <div class="title-block">
-            <h1>{{this.projects.title}}</h1>
+            <h1>{{this.project.title}}</h1>
           </div>
-          <p>{{this.projects.description}}</p>
+          <p>{{this.project.description}}</p>
         </div>
         
       </div>
@@ -41,8 +41,8 @@ export default {
         search: "",
         loading: true,
         error: false,
-        id: "aa4a2d91-38f4-43f1-8fde-10122a3c2cf5",
-        projects: [],
+        id: "9dc06c05-4fc4-41a3-868d-cf71658e6a5e",
+        project: [],
         headers: [
         {
             text: "Title",
@@ -54,28 +54,40 @@ export default {
         ],
     }),
     
-    methods: {
-        AddProject()
-        {
+    created()
+    {
+      if(this.$route.params.projectId != null)
+      {
+        this.id = this.$route.params.projectId;
+      }
+      else
+      {
+        //TODO
+        //Redirect to 404
+      }
 
-        }
+      const config = {
+        method: 'get',
+        url: "/Project/"+this.id
+      }
+      this.$axios(config)
+        .then((result) => {
+            this.project = result.data;
+            this.loading = false;
+            console.log(this.project);
+        })
+        .catch((error) => {
+            this.error = true;
+            this.loading = false;
+            console.log(error);
+        })
     },
-    created(){
-        const config = {
-            method: 'get',
-            url: "/Project/"+this.id
-        }
-        this.$axios(config)
-            .then((result) => {
-                this.projects = result.data;
-                this.loading = false;
-                console.log(this.projects);
-            })
-            .catch((error) => {
-                this.error = true;
-                this.loading = false;
-                console.log(error);
-            })
+
+    methods: {
+      AddProject(){
+
+      },
+      
     }
 }
 </script>
@@ -85,7 +97,7 @@ export default {
 
 section.project{
   display: flex;
-  margin-top: 100px;
+  margin: 100px 0;
   flex-direction: column;
 
   .wrapper{

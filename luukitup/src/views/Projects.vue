@@ -4,7 +4,8 @@
     <section class="projectsgrid">
       <template v-for="item in projects">
         
-        <router-link :to="'/Projecten/Project?id='+item.id" class="item" :key="item.id">
+        <!-- <router-link :to="'/Projecten/Project?id='+item.id" class="item" :key="item.id"> -->
+        <router-link :to="{ name: 'Project', params: { projectId: item.id } }" class="item" :key="item.id">
           <div class="featured-image" :key="item.id">
             <v-img lazy-src="../assets/logo-3-cropped-better-white.png" :src="item.featuredImageUrl"></v-img>
           </div>
@@ -41,12 +42,6 @@ export default {
         ],
     }),
     
-    methods: {
-        AddProject()
-        {
-
-        }
-    },
     created(){
         const config = {
             method: 'get',
@@ -63,6 +58,13 @@ export default {
                 this.loading = false;
                 console.log(error);
             })
+    },
+
+    methods: {
+      AddProject()
+      {
+
+      }
     }
 }
 </script>
