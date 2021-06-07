@@ -21,24 +21,40 @@
           <h1>Uitgelichte Projecten</h1>
         </div>
         <div class="row">
-          <div class="col">
+
+          <router-link class="col" to="/Projecten">
+            <div class="title-block" to="/Projecten">
+              <h2>samknippenberg.nl</h2>
+            </div>
+            <v-img lazy-src="../assets/projects/samknippenberg-1920x1080.png" src="../assets/projects/samknippenberg-1920x1080.png" > </v-img>
             <div class="logo">
               <v-img lazy-src="../assets/Sam-logo-wit.png" src="../assets/Sam-logo-wit.png" > </v-img>
             </div>
             <v-btn text to="/Projecten">Bekijk Project</v-btn>
-          </div>
-          <div class="col">
+          </router-link>
+
+          <router-link class="col" to="/Projecten">
+            <div class="title-block">
+              <h2>moesapp.nl</h2>
+            </div>
+            <v-img lazy-src="../assets/projects/moesapp-1920x1080.png" src="../assets/projects/moesapp-1920x1080.png" > </v-img>
             <div class="logo">
               <v-img lazy-src="../assets/moesapp.png" src="../assets/moesapp.png" > </v-img>
             </div>
             <v-btn text to="/Projecten">Bekijk Project</v-btn>
-          </div>
-          <div class="col">
+          </router-link>
+
+          <router-link class="col" to="/Projecten">
+            <div class="title-block">
+              <h2>bellasfashion4all.nl</h2>
+            </div>
+            <v-img lazy-src="../assets/projects/samknippenberg-1920x1080.png" src="../assets/projects/samknippenberg-1920x1080.png" > </v-img>
             <div class="logo">
               <v-img lazy-src="../assets/bella.png" src="../assets/bella.png" ></v-img>
             </div>
             <v-btn text to="/Projecten">Bekijk Project</v-btn>
-          </div>
+          </router-link>
+
         </div>
       </div>
     </section>
@@ -168,8 +184,8 @@ section.featured-projects{
       color: $thirdColor;
       padding: 10px 15px;
       float: left;
-      border-top-right-radius: 7px;
-      border-bottom-right-radius: 7px;
+      //border-top-right-radius: 7px;
+      //border-bottom-right-radius: 7px;
     }
   }
 
@@ -187,6 +203,39 @@ section.featured-projects{
       align-content: center;
       align-items: center;
       position: relative;
+      min-height: 324px;
+      //box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+      box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+      padding: 0;
+
+      .title-block{
+        z-index: 2; 
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        margin-bottom: 0;
+
+        h2{
+          display: flex;
+          height: 100%;
+          width: 100%;
+          justify-content: center;
+          align-items: center;
+          transition: 0.3s;
+          margin-bottom: 0;
+          cursor: pointer;
+          background: $fourthColorOpacity;
+          opacity: 0;
+
+          &:hover{
+            opacity: 1;
+          }
+        }
+      }
+
+      .logo{
+        display: none;
+      }
 
       &:first-of-type{
         margin: 0 12.5px 0 0;
@@ -197,7 +246,10 @@ section.featured-projects{
       }
 
       .v-image{
-        max-width: 180px;
+        position: absolute;
+        width: 100%;
+        max-width: 100%;
+        height: 100%;
       }
 
       .v-btn{
