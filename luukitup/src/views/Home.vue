@@ -20,42 +20,7 @@
         <div class="title-block">
           <h1>Uitgelichte Projecten</h1>
         </div>
-        <div class="row">
-
-          <router-link class="col" to="/Projecten">
-            <div class="title-block" to="/Projecten">
-              <h2>samknippenberg.nl</h2>
-            </div>
-            <v-img lazy-src="../assets/projects/samknippenberg-1920x1080.png" src="../assets/projects/samknippenberg-1920x1080.png" > </v-img>
-            <div class="logo">
-              <v-img lazy-src="../assets/Sam-logo-wit.png" src="../assets/Sam-logo-wit.png" > </v-img>
-            </div>
-            <v-btn text to="/Projecten">Bekijk Project</v-btn>
-          </router-link>
-
-          <router-link class="col" to="/Projecten">
-            <div class="title-block">
-              <h2>moesapp.nl</h2>
-            </div>
-            <v-img lazy-src="../assets/projects/moesapp-1920x1080.png" src="../assets/projects/moesapp-1920x1080.png" > </v-img>
-            <div class="logo">
-              <v-img lazy-src="../assets/moesapp.png" src="../assets/moesapp.png" > </v-img>
-            </div>
-            <v-btn text to="/Projecten">Bekijk Project</v-btn>
-          </router-link>
-
-          <router-link class="col" to="/Projecten">
-            <div class="title-block">
-              <h2>bellasfashion4all.nl</h2>
-            </div>
-            <v-img lazy-src="../assets/projects/samknippenberg-1920x1080.png" src="../assets/projects/samknippenberg-1920x1080.png" > </v-img>
-            <div class="logo">
-              <v-img lazy-src="../assets/bella.png" src="../assets/bella.png" ></v-img>
-            </div>
-            <v-btn text to="/Projecten">Bekijk Project</v-btn>
-          </router-link>
-
-        </div>
+        <featuredProjects/>
       </div>
     </section>
     <section class="featured-blog">
@@ -116,13 +81,13 @@
 </template>
 
 <script>
-  import HelloWorld from '../components/HelloWorld'
+import FeaturedProjects from '../components/FeaturedProjects.vue'
 
   export default {
     name: 'Home',
 
     components: {
-      HelloWorld,
+        FeaturedProjects,
     },
   }
 </script>
@@ -173,7 +138,9 @@ section.intro{
   }
 }
 
-section.featured-projects{
+
+
+section.featured-projects, .projectsgrid{
   margin: 100px 0;
 
   .title-block{
@@ -191,8 +158,9 @@ section.featured-projects{
 
   .row{
     margin: 0;
+  }
 
-    .col{
+  .col{
       max-width: 33%;
       margin: 0 12.5px;
       background: $thirdColorContrast;
@@ -283,7 +251,6 @@ section.featured-projects{
         */
       }
     }
-  }
 }
 
 section.featured-blog{
