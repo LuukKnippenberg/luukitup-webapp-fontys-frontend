@@ -15,9 +15,19 @@ npm run serve
 npm run build
 ```
 
-### Run your end-to-end tests
+### Run your end-to-end tests - Not sure if this works
 ```
 npm run test:e2e
+```
+
+### Open Cypress to open end-to-end tester
+```
+npx cypress open
+```
+
+### Open Cypress to run end-to-end tests with videorecorder
+```
+npx cypress run
 ```
 
 ### Customize configuration
