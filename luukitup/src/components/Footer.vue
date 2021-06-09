@@ -22,13 +22,13 @@
         </div>
         <div class="col">
           <h2>Navigatie</h2>
-          <nav>
+          <nav class="footer-nav">
             <ul>
-              <li><v-btn text to="/">Home</v-btn></li>
-              <li><v-btn text to="/Over-Ons">Over Ons</v-btn></li>
-              <li><v-btn text to="/Projecten">Projecten</v-btn></li>
-              <li><v-btn text to="/Blog">Blog</v-btn></li>
-              <li><v-btn text to="/Contact">Contact</v-btn></li>
+              <li><v-btn text to="/" id="footer-nav-button-home">Home</v-btn></li>
+              <li><v-btn text to="/Over-Ons" id="footer-nav-button-over-ons">Over Ons</v-btn></li>
+              <li><v-btn text to="/Projecten" id="footer-nav-button-projecten">Projecten</v-btn></li>
+              <li><v-btn text to="/Blog" id="footer-nav-button-blog">Blog</v-btn></li>
+              <li><v-btn text to="/Contact" id="footer-nav-button-contact">Contact</v-btn></li>
             </ul>
           </nav>
         </div>

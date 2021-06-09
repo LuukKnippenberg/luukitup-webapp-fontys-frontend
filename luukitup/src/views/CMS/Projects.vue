@@ -30,12 +30,14 @@
             >
           </v-toolbar>
         </template>
+        
         <template v-slot:item.actions="{ item }">
-          <v-icon color="accent" small class="mr-2" @click="console.log('ff')">
+          <v-icon color="accent" small class="mr-2" @click="LogTest('Edit')">
             mdi-pencil
           </v-icon>
-          <v-icon color="error" small @click="console.log('ff')"> mdi-delete </v-icon>
+          <v-icon color="error" small @click="DeleteProject(item.id)"> mdi-delete </v-icon>
         </template>
+
       </v-data-table>
       <v-alert v-if="error" outlined type="error" color="error">
         There was an error receiving the Projects
@@ -51,6 +53,7 @@ export default {
         loading: true,
         error: false,
         projects: [],
+        deletePopup: false,
         headers: [
         {
             text: "Title",
@@ -63,15 +66,43 @@ export default {
     }),
     
     methods: {
+        LogTest(message)
+        {
+          console.log(message);
+        },
         AddProject()
         {
 
+        },
+        DeleteProject(id)
+        {
+          console.log(id)
+
+          const config = {
+            method: 'delete',
+            url: "/Project/Delete",
+            data: {
+              id: id
+            }
+          }
+        this.$axios(config)
+            .then((result) => {
+                this.projects = result.data;
+                this.loading = false;
+                console.log(this.projects);
+            })
+            .catch((error) => {
+                this.error = true;
+                this.loading = false;
+                console.log(error);
+            })
         }
+        
     },
     created(){
         const config = {
             method: 'get',
-            url: "/Project"
+            url: "/Project/All"
         }
         this.$axios(config)
             .then((result) => {

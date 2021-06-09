@@ -10,12 +10,12 @@
           </v-img>
         </router-link>
       </div>
-      <nav>
+      <nav class="header-nav">
         <ul>
-          <li><v-btn text to="/Over-Ons">Over Ons</v-btn></li>
-          <li><v-btn text to="/Projecten">Projecten</v-btn></li>
-          <li><v-btn text to="/Blog">Blog</v-btn></li>
-          <li><v-btn text to="/Contact">Contact</v-btn></li>
+          <li><v-btn text to="/Over-Ons" id="header-nav-button-over-ons">Over Ons</v-btn></li>
+          <li><v-btn text to="/Projecten" id="header-nav-button-projecten">Projecten</v-btn></li>
+          <li><v-btn text to="/Blog" id="header-nav-button-blog">Blog</v-btn></li>
+          <li><v-btn text to="/Contact" id="header-nav-button-contact">Contact</v-btn></li>
         </ul>
       </nav>
     </div>
