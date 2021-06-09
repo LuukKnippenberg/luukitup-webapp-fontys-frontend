@@ -32,6 +32,9 @@ jobs:
     - run: npm test
       name: Running Test
       working-directory: ./luukitup
+    - run: npx cypress run --record --key ${{secrets.CYPRESS_ID}}
+      name: Running E2E Cypress Tests
+      working-directory: ./luukitup
     - name: Archive production artifact
       uses: actions/upload-artifact@main
       with:
