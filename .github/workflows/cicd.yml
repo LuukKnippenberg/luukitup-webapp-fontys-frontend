@@ -35,7 +35,7 @@ jobs:
     - name: Running Test
       run: npm test
     - name: Running E2E Cypress Tests
-      run: npm run test:e2e
+      run: npx cypress run --key ${{secrets.cypress_id}}
     - name: Archive production artifact
       uses: actions/upload-artifact@main
       with:
