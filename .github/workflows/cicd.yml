@@ -14,27 +14,22 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [14.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
     - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Use Node.js 14.x
       uses: actions/setup-node@v2
       with:
-        node-version: ${{ matrix.node-version }}
-    - run: npm ci
-      working-directory: ./luukitup
-    - run: npm run build --if-present
-      working-directory: ./luukitup
-    - run: npm test
-      name: Running Test
-      working-directory: ./luukitup
-    - run: npx cypress run --record --key ${{secrets.CYPRESS_ID}}
-      name: Running E2E Cypress Tests
-      working-directory: ./luukitup
+        node-version: 14.x
+    - name: CI
+      run: npm ci
+    - name: Build
+      run: npm run build
+    - name: install forever
+      run: npm install forever -g
+    - name: Running Test
+      run: npm test
+    - name: Running E2E Cypress Tests
+      run: npm run test:e2e
     - name: Archive production artifact
       uses: actions/upload-artifact@main
       with:
