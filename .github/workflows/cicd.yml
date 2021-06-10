@@ -27,8 +27,8 @@ jobs:
         node-version: 14.x
     - name: CI
       run: npm ci
-    #- name: Lint
-    #  run: npm run lint
+    - name: Lint
+      run: npm run lint
     - name: Build
       run: npm run build
     
