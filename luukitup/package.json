@@ -5,7 +5,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "test:e2e": "vue-cli-service test:e2e --headless"
+    "test:e2e": "vue-cli-service test:e2e --headless",
+    "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "@cypress/vue": "^3.0.0-beta.1",
@@ -20,10 +21,15 @@
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-e2e-cypress": "~4.5.0",
+    "@vue/cli-plugin-eslint": "^4.5.13",
     "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
+    "babel-eslint": "^10.1.0",
     "cypress": "^7.5.0",
+    "eslint": "^6.7.2",
+    "eslint-plugin-cypress": "^2.11.3",
+    "eslint-plugin-vue": "^6.2.2",
     "sass": "~1.32.6",
     "sass-loader": "^10.0.0",
     "vue-cli-plugin-vuetify": "~2.4.0",
