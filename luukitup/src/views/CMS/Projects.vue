@@ -307,11 +307,6 @@
         
         this.editId = item.id;
       },
-
-      LogTest(message)
-      {
-        console.log(message);
-      },
       
       AddProject()
       {
