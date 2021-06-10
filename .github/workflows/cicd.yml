@@ -31,11 +31,8 @@ jobs:
       run: npm run lint
     - name: Build
       run: npm run build
-    
     - name: Running Test
       run: npm test
-    - name: Start App
-      run: npm start:ci &
     - name: Running E2E Cypress Tests
       run: npm run test:e2e
 
