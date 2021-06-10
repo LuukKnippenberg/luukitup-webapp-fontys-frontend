@@ -27,31 +27,14 @@ jobs:
         node-version: 14.x
     - name: CI
       run: npm ci
+    - name: Lint
+      run: npm run lint
     - name: Build
       run: npm run build
-    #- name: install forever
-    #  run: npm install forever -g
-    
     - name: Running Test
       run: npm test
-    - name: Start App
-      run: npm start:ci &
     - name: Running E2E Cypress Tests
       run: npm run test:e2e
-      
-    #- name: Start App
-    #  run: forever start -c "npm run serve" ./
-    #- name: Sleep for 30 seconds (Let the app boot)
-    #  uses: jakejarvis/wait-action@master
-    #  with:
-    #    time: '30s'
-    #- name: Running E2E Cypress Tests
-    #  run: npx cypress run --key ${{secrets.cypress_id}}
-      
-    # start the server in the background
-    #- npm run start:ci &
-    # run Cypress tests
-    #- npm run e2e
 
     - name: Archive production artifact
       uses: actions/upload-artifact@main
