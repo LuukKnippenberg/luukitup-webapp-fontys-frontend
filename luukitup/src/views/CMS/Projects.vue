@@ -66,25 +66,117 @@ export default {
     }),
     
     methods: {
-        LogTest(message)
-        {
-          console.log(message);
-        },
-        AddProject()
-        {
+      submit () {
+        this.$v.$touch();
+        this.AddProject();
+      },
+      clear () {
+        this.$v.$reset();
+        this.title = '';
+        this.description = '';
+        this.featured = false;
+        this.linkToProject = '';
+      },
+      cancel () {
+        this.clear();
+        this.dialog = false;
+      },
 
-        },
-        DeleteProject(id)
-        {
-          console.log(id)
+      submitEdit () {
+        this.$v.$touch();
+        this.EditProject();
+      },
+      clearEdit () {
+        this.$v.$reset();
+        this.editTitle = '';
+        this.editDescription = '';
+        this.editFeatured = false;
+        this.editLinkToProject = '';
+      },
+      cancelEdit () {
+        this.clear();
+        this.editDialog = false;
+      },
+      OpenEdit(item)
+      {
+        this.editTitle = item.title;
+        this.editDescription = item.description;
+        this.editLinkToProject = item.linkToProject;
+        this.editFeatured = item.featured;
+        this.editFeaturedImageUrl = item.featuredImageUrl;
+        this.editDialog = true;
+        
+        this.editId = item.id;
+      },
+      
+      AddProject()
+      {
+        const config = {
+          method: 'POST',
+          url: "/Project/Add",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          data: { description: this.description, 
+          featured: this.featured, 
+          featuredImageUrl: this.featuredImageUrl, 
+          linkToProject: this.linkToProject, 
+          title: this.title }
+        }
+        this.$axios(config)
+          .then((result) => {
+            this.success = result.data;
+            this.loading = false;
+            this.dialog = false;
+            console.log(this.projects);
+            this.GetList();
+          })
+          .catch((error) => {
+            this.error = true;
+            this.loading = false;
+            console.log(error);
+          })
+      },
 
-          const config = {
-            method: 'delete',
-            url: "/Project/Delete",
-            data: {
-              id: id
-            }
-          }
+      EditProject()
+      {
+        const config = {
+          method: 'PUT',
+          url: "/Project/Edit",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          data: { 
+            description: this.editDescription, 
+            featured: this.editFeatured, 
+            featuredImageUrl: this.editFeaturedImageUrl, 
+            id: this.editId, 
+            linkToProject: this.editLinkToProject, 
+            title: this.editTitle }
+        }
+        this.$axios(config)
+          .then((result) => {
+            this.success = result.data;
+            this.loading = false;
+            this.editDialog = false;
+            console.log(this.success);
+            this.GetList();
+          })
+          .catch((error) => {
+            this.error = true;
+            this.loading = false;
+            console.log(error);
+          })
+      },
+
+      DeleteProject(deleteId)
+      {
+        console.log(deleteId)
+
+        const config = {
+          method: 'delete',
+          url: "/Project/Delete/" + deleteId
+        }
         this.$axios(config)
             .then((result) => {
                 this.projects = result.data;
