@@ -16,15 +16,17 @@
             <v-divider class="mx-4" inset vertical></v-divider>
             <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line hide-details></v-text-field>
             <v-spacer></v-spacer>
+
+            <!-- Add Project -->
             <div class="text-center">
-              <v-dialog v-model="dialog" width="750" content-class="add-form">
+              <v-dialog v-model="dialog" width="750" content-class="add-form" :retain-focus="false">
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn color="success" v-bind="attrs" v-on="on" outlined tile>Add</v-btn>
                 </template>
 
                 <v-card>
                   <v-card-title class="text-h5 grey lighten-2">
-                    Privacy Policy
+                    Add Project
                   </v-card-title>
 
                   <template>
@@ -82,21 +84,89 @@
                 </v-card>
               </v-dialog>
             </div>
-
+            <!-- /Add Project -->
           </v-toolbar>
         </template>
         
+        <!-- Template Delete and Edit Buttons -->
         <template v-slot:item.actions="{ item }">
-          <v-icon color="accent" small class="mr-2" @click="LogTest('Edit')">
-            mdi-pencil
-          </v-icon>
+          
+          <v-icon color="accent" small class="mr-2" @click="OpenEdit(item)">mdi-pencil</v-icon>
           <v-icon color="error" small @click="DeleteProject(item.id)"> mdi-delete </v-icon>
         </template>
+        <!-- /Template Delete and Edit Buttons -->
 
       </v-data-table>
       <v-alert v-if="error" outlined type="error" color="error">
         There was an error receiving the Projects
       </v-alert>
+
+      <!-- Template Edit Project -->
+      <template>
+        <div class="text-center">
+          <v-dialog v-model="editDialog" width="750" content-class="edit-form" :retain-focus="false">
+            <v-card>
+              <v-card-title class="text-h5 grey lighten-2">
+                Edit Project
+              </v-card-title>
+
+              <template>
+                <form class="edit-form">
+
+                  <v-text-field
+                    v-model="editTitle"
+                    :error-messages="editTitleErrors"
+                    :counter="80"
+                    label="Title"
+                    required
+                    @input="$v.editTitle.$touch()"
+                    @blur="$v.editTitle.$touch()"
+                  ></v-text-field>
+
+                  <v-text-field
+                    v-model="editDescription"
+                    :error-messages="editDescriptionErrors"
+                    label="Description"
+                    required
+                    @input="$v.editDescription.$touch()"
+                    @blur="$v.editDescription.$touch()"
+                  ></v-text-field>
+
+                  <v-text-field
+                    v-model="editLinkToProject"
+                    :error-messages="editLinkToProjectErrors"
+                    label="Link to Project"
+                    @input="$v.editLinkToProject.$touch()"
+                    @blur="$v.editLinkToProject.$touch()"
+                  ></v-text-field>
+
+                  <!--  
+                  <v-file-input
+                    truncate-length="15"
+                    label="Featured image"
+                  ></v-file-input>
+                  -->
+
+                  <v-checkbox
+                    v-model="editFeatured"
+                    :error-messages="editFeaturedErrors"
+                    label="Featured Project"
+                    @change="$v.editFeatured.$touch()"
+                    @blur="$v.editFeatured.$touch()"
+                  ></v-checkbox>
+
+                  <!-- <v-divider></v-divider> -->
+
+                  <v-btn color="success" class="mr-4" @click="submitEdit">Edit</v-btn>
+                  <v-btn class="mr-4" @click="clearEdit">clear</v-btn>
+                  <v-btn color="error" class="mr-4" @click="cancelEdit">Cancel</v-btn>
+                </form>
+              </template>
+            </v-card>
+          </v-dialog>
+        </div>
+      </template>
+      <!-- /Template Edit Project -->
 
     </v-container>
   </section>
@@ -118,6 +188,14 @@
           return val
         },
       },
+      editTitle: { required, maxLength: maxLength(80) },
+      editDescription: { required },
+      editLinkToProject: { },
+      editFeatured: {
+        checked (val) {
+          return val
+        },
+      },
     },
 
     computed: {
@@ -132,6 +210,20 @@
         const errors = []
         if (!this.$v.description.$dirty) return errors
         !this.$v.description.required && errors.push('Description is required.')
+        return errors
+      },
+
+      editTitleErrors () {
+        const errors = []
+        if (!this.$v.editTitle.$dirty) return errors
+        !this.$v.editTitle.maxLength && errors.push('Title must be at most 80 characters long')
+        !this.$v.editTitle.required && errors.push('Title is required.')
+        return errors
+      },
+      editDescriptionErrors () {
+        const errors = []
+        if (!this.$v.editDescription.$dirty) return errors
+        !this.$v.editDescription.required && errors.push('Description is required.')
         return errors
       }
     },
@@ -159,7 +251,16 @@
         linkToProject: '',
         featuredErrors: '',
         linkToProjectErrors: '',
-        featuredImageUrl: 'https://luukitup.nl'
+        featuredImageUrl: 'https://luukitup.nl',
+        editDialog: false,
+        editTitle: '',
+        editDescription: '',
+        editFeatured: false,
+        editLinkToProject: '',
+        editFeaturedErrors: '',
+        editLinkToProjectErrors: '',
+        editFeaturedImageUrl: 'https://luukitup.nl',
+        editId: ''
 
     }),
       
@@ -180,6 +281,33 @@
         this.dialog = false;
       },
 
+      submitEdit () {
+        this.$v.$touch();
+        this.EditProject();
+      },
+      clearEdit () {
+        this.$v.$reset();
+        this.editTitle = '';
+        this.editDescription = '';
+        this.editFeatured = false;
+        this.editLinkToProject = '';
+      },
+      cancelEdit () {
+        this.clear();
+        this.editDialog = false;
+      },
+      OpenEdit(item)
+      {
+        this.editTitle = item.title;
+        this.editDescription = item.description;
+        this.editLinkToProject = item.linkToProject;
+        this.editFeatured = item.featured;
+        this.editFeaturedImageUrl = item.featuredImageUrl;
+        this.editDialog = true;
+        
+        this.editId = item.id;
+      },
+
       LogTest(message)
       {
         console.log(message);
@@ -193,7 +321,11 @@
           headers: {
             "Content-Type": "application/json",
           },
-          data: { description: this.description, featured: this.featured, featuredImageUrl: this.featuredImageUrl, linkToProject: this.linkToProject, title: this.title }
+          data: { description: this.description, 
+          featured: this.featured, 
+          featuredImageUrl: this.featuredImageUrl, 
+          linkToProject: this.linkToProject, 
+          title: this.title }
         }
         this.$axios(config)
           .then((result) => {
@@ -201,6 +333,37 @@
             this.loading = false;
             this.dialog = false;
             console.log(this.projects);
+            this.GetList();
+          })
+          .catch((error) => {
+            this.error = true;
+            this.loading = false;
+            console.log(error);
+          })
+      },
+
+      EditProject()
+      {
+        const config = {
+          method: 'PUT',
+          url: "/Project/Edit",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          data: { 
+            description: this.editDescription, 
+            featured: this.editFeatured, 
+            featuredImageUrl: this.editFeaturedImageUrl, 
+            id: this.editId, 
+            linkToProject: this.editLinkToProject, 
+            title: this.editTitle }
+        }
+        this.$axios(config)
+          .then((result) => {
+            this.success = result.data;
+            this.loading = false;
+            this.editDialog = false;
+            console.log(this.success);
             this.GetList();
           })
           .catch((error) => {
@@ -265,9 +428,9 @@
   margin: 100px 0;
 }
 
-.v-dialog.add-form{
+.v-dialog.add-form, .v-dialog.edit-form{
   
-  form.add-form{
+  form{
     padding: 25px;
   }
 }
