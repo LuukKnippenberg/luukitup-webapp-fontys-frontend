@@ -67,18 +67,29 @@
                       <v-checkbox
                         v-model="featured"
                         :error-messages="featuredErrors"
-                        label="Featured Project"
+                        label="Is it a featured project?"
                         @change="$v.featured.$touch()"
                         @blur="$v.featured.$touch()"
                       ></v-checkbox>
 
-                      <!-- <v-divider></v-divider> -->
-
-                      <v-btn color="success" class="mr-4" @click="submit">Add</v-btn>
-                      <v-btn class="mr-4" @click="clear">clear</v-btn>
-                      <v-btn color="error" class="mr-4" @click="cancel">Cancel</v-btn>
+                      <v-btn
+                        class="mr-4"
+                        @click="submit"
+                      >
+                        Add
+                      </v-btn>
+                      <v-btn @click="clear">
+                        clear
+                      </v-btn>
                     </form>
                   </template>
+
+                  <v-divider></v-divider>
+
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="primary" text @click="AddProject()">I accept</v-btn>
+                  </v-card-actions>
                 </v-card>
               </v-dialog>
             </div>
@@ -141,7 +152,6 @@
         loading: true,
         error: false,
         projects: [],
-        success: false,
         deletePopup: false,
         headers: [
         {
@@ -158,15 +168,14 @@
         featured: false,
         linkToProject: '',
         featuredErrors: '',
-        linkToProjectErrors: '',
-        featuredImageUrl: 'https://luukitup.nl'
+        linkToProjectErrors: ''
 
     }),
       
     methods: {
       submit () {
         this.$v.$touch();
-        this.AddProject();
+        AddProject();
       },
       clear () {
         this.$v.$reset();
@@ -175,41 +184,31 @@
         this.featured = false;
         this.linkToProject = '';
       },
-      cancel () {
-        this.clear();
-        this.dialog = false;
-      },
 
       LogTest(message)
       {
         console.log(message);
       },
-      
       AddProject()
       {
         const config = {
-          method: 'POST',
-          url: "/Project/Add",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          data: { description: this.description, featured: this.featured, featuredImageUrl: this.featuredImageUrl, linkToProject: this.linkToProject, title: this.title }
+          method: 'delete',
+          url: "/Project/Add"
         }
         this.$axios(config)
           .then((result) => {
-            this.success = result.data;
-            this.loading = false;
-            this.dialog = false;
-            console.log(this.projects);
-            this.GetList();
+              this.projects = result.data;
+              this.loading = false;
+              console.log(this.projects);
           })
           .catch((error) => {
-            this.error = true;
-            this.loading = false;
-            console.log(error);
+              this.error = true;
+              this.loading = false;
+              console.log(error);
           })
-      },
 
+        this.dialog = false;
+      },
       DeleteProject(id)
       {
         console.log(id)
@@ -220,40 +219,35 @@
         }
         this.$axios(config)
           .then((result) => {
-            this.success = result.data;
-            this.loading = false;
-            console.log(this.projects);
-            this.GetList();
+              this.projects = result.data;
+              this.loading = false;
+              console.log(this.projects);
           })
           .catch((error) => {
               this.error = true;
               this.loading = false;
               console.log(error);
           })
-      },
-
-      GetList(){
-        const config = {
-          method: 'get',
-          url: "/Project/All"
-        }
-        this.$axios(config)
-          .then((result) => {
-            this.projects = result.data;
-            this.loading = false;
-            console.log(this.projects);
-          })
-          .catch((error) => {
-            this.error = true;
-            this.loading = false;
-            console.log(error);
-          })
       }
         
     },
 
     created(){
-      this.GetList();
+      const config = {
+          method: 'get',
+          url: "/Project/All"
+      }
+      this.$axios(config)
+          .then((result) => {
+              this.projects = result.data;
+              this.loading = false;
+              console.log(this.projects);
+          })
+          .catch((error) => {
+              this.error = true;
+              this.loading = false;
+              console.log(error);
+          })
     }
   }
 </script>
