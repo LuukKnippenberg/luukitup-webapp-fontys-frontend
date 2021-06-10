@@ -6,7 +6,8 @@ import vuetify from './plugins/vuetify'
 import axios from 'axios';
 
 Vue.config.productionTip = false
-axios.defaults.baseURL = "http://localhost:3000";
+axios.defaults.baseURL = window.location.hostname === "localhost" ? "http://localhost:3000/" : "https://api.luukitup.nl"
+
 Vue.prototype.$axios = axios;
 
 new Vue({
