@@ -169,22 +169,14 @@ export default {
           })
       },
 
-      DeleteProject(id)
+      DeleteProject(deleteId)
       {
-        console.log(id)
+        console.log(deleteId)
 
-        },
-        DeleteProject(id)
-        {
-          console.log(id)
-
-          const config = {
-            method: 'delete',
-            url: "/Project/Delete",
-            data: {
-              id: id
-            }
-          }
+        const config = {
+          method: 'delete',
+          url: "/Project/Delete/" + deleteId
+        }
         this.$axios(config)
             .then((result) => {
                 this.projects = result.data;
