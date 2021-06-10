@@ -35,9 +35,9 @@ jobs:
     - name: Running Test
       run: npm test
     - name: Start App
-      run: run start:ci &
+      run: npm start:ci &
     - name: Running E2E Cypress Tests
-      run: run e2e
+      run: npm run test:e2e
       
     #- name: Start App
     #  run: forever start -c "npm run serve" ./
