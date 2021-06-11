@@ -21,7 +21,7 @@
             <div class="text-center">
               <v-dialog v-model="dialog" width="750" content-class="add-form" :retain-focus="false">
                 <template v-slot:activator="{ on, attrs }">
-                  <v-btn color="success" v-bind="attrs" v-on="on" outlined tile>Add</v-btn>
+                  <v-btn color="success" v-bind="attrs" v-on="on" outlined tile id="add-form-open">Add</v-btn>
                 </template>
 
                 <v-card>
@@ -40,6 +40,7 @@
                         required
                         @input="$v.title.$touch()"
                         @blur="$v.title.$touch()"
+                        id="add-form-title"
                       ></v-text-field>
 
                       <v-text-field
@@ -49,6 +50,7 @@
                         required
                         @input="$v.description.$touch()"
                         @blur="$v.description.$touch()"
+                        id="add-form-description"
                       ></v-text-field>
 
                       <v-text-field
@@ -57,6 +59,7 @@
                         label="Link to Project"
                         @input="$v.linkToProject.$touch()"
                         @blur="$v.linkToProject.$touch()"
+                        id="add-form-linkToProject"
                       ></v-text-field>
 
                       <!--  
@@ -72,13 +75,14 @@
                         label="Featured Project"
                         @change="$v.featured.$touch()"
                         @blur="$v.featured.$touch()"
+                        id="add-form-featured"
                       ></v-checkbox>
 
                       <!-- <v-divider></v-divider> -->
 
-                      <v-btn color="success" class="mr-4" @click="submit">Add</v-btn>
-                      <v-btn class="mr-4" @click="clear">clear</v-btn>
-                      <v-btn color="error" class="mr-4" @click="cancel">Cancel</v-btn>
+                      <v-btn color="success" class="mr-4" @click="submit" id="add-form-submit">Add</v-btn>
+                      <v-btn class="mr-4" @click="clear" id="add-form-clear">clear</v-btn>
+                      <v-btn color="error" class="mr-4" @click="cancel" id="add-form-cancel">Cancel</v-btn>
                     </form>
                   </template>
                 </v-card>
@@ -91,8 +95,8 @@
         <!-- Template Delete and Edit Buttons -->
         <template v-slot:item.actions="{ item }">
           
-          <v-icon color="accent" small class="mr-2" @click="OpenEdit(item)">mdi-pencil</v-icon>
-          <v-icon color="error" small @click="OpenDelete(item.id, item.title)"> mdi-delete </v-icon>
+          <v-icon color="accent" small class="mr-2" @click="OpenEdit(item)" id="edit-form-open">mdi-pencil</v-icon>
+          <v-icon color="error" small @click="OpenDelete(item.id, item.title)" id="delete-form-open"> mdi-delete </v-icon>
         </template>
         <!-- /Template Delete and Edit Buttons -->
 
