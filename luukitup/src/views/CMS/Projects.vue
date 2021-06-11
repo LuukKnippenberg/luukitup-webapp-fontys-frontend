@@ -92,7 +92,7 @@
         <template v-slot:item.actions="{ item }">
           
           <v-icon color="accent" small class="mr-2" @click="OpenEdit(item)">mdi-pencil</v-icon>
-          <v-icon color="error" small @click="DeleteProject(item.id)"> mdi-delete </v-icon>
+          <v-icon color="error" small @click="OpenDelete(item.id, item.title)"> mdi-delete </v-icon>
         </template>
         <!-- /Template Delete and Edit Buttons -->
 
@@ -101,7 +101,7 @@
         There was an error receiving the Projects
       </v-alert>
 
-      <!-- Template Edit Project -->
+      <!-- Template Edit Project Dialog -->
       <template>
         <div class="text-center">
           <v-dialog v-model="editDialog" width="750" content-class="edit-form" :retain-focus="false">
@@ -166,7 +166,26 @@
           </v-dialog>
         </div>
       </template>
-      <!-- /Template Edit Project -->
+      <!-- /Template Edit Project Dialog -->
+
+      <!-- Template Delete Project Dialog -->
+      <template>
+        <div class="text-center">
+          <v-dialog v-model="deleteDialog" width="750" content-class="delete-form" :retain-focus="false">
+            <v-card>
+              <v-card-title class="text-h5 grey lighten-2">
+                Delete Project {{this.deleteTitle}}
+              </v-card-title>
+              <form>
+                <v-btn color="success" class="mr-4" @click="SubmitDelete">Delete</v-btn>
+                <v-btn color="error" class="mr-4" @click="CancelDelete">Cancel</v-btn>
+              </form>
+              
+            </v-card>
+          </v-dialog>
+        </div>
+      </template>
+      <!-- /Template Delete Project Dialog -->
 
     </v-container>
   </section>
@@ -255,13 +274,18 @@
         editFeaturedErrors: '',
         editLinkToProjectErrors: '',
         editFeaturedImageUrl: 'https://luukitup.nl',
-        editId: ''
+        editId: '',
+        deleteDialog: false,
+        deleteId: '',
+        deleteTitle: '',
     }),
       
     methods: {
       submit () {
         this.$v.$touch();
         this.AddProject();
+
+        this.clear();
       },
       clear () {
         this.$v.$reset();
@@ -300,7 +324,22 @@
         
         this.editId = item.id;
       },
-      
+
+      OpenDelete(deleteId, deleteTitle){
+        this.deleteId = deleteId;
+        this.deleteTitle = deleteTitle;
+        this.deleteDialog = true;
+      },
+      SubmitDelete(){
+        this.DeleteProject(this.deleteId);
+        this.CancelDelete();
+      },
+      CancelDelete(){
+        this.deleteId = '';
+        this.deleteTitle = '';
+        this.deleteDialog = false;
+      },
+
       AddProject()
       {
         const config = {
@@ -320,7 +359,7 @@
             this.success = result.data;
             this.loading = false;
             this.dialog = false;
-            console.log(this.projects);
+            //console.log(this.projects);
             this.GetList();
           })
           .catch((error) => {
@@ -350,7 +389,7 @@
             this.success = result.data;
             this.loading = false;
             this.editDialog = false;
-            console.log(this.success);
+            //console.log(this.success);
             this.GetList();
           })
           .catch((error) => {
@@ -361,7 +400,7 @@
       },
       DeleteProject(id)
       {
-        console.log(id)
+        //console.log(id)
         const config = {
           method: 'delete',
           url: "/Project/Delete/" + id
@@ -370,7 +409,7 @@
           .then((result) => {
             this.success = result.data;
             this.loading = false;
-            console.log(this.projects);
+            //console.log(this.projects);
             this.GetList();
           })
           .catch((error) => {
@@ -388,7 +427,7 @@
           .then((result) => {
             this.projects = result.data;
             this.loading = false;
-            console.log(this.projects);
+            //console.log(this.projects);
           })
           .catch((error) => {
             this.error = true;
@@ -409,7 +448,7 @@
 .cms-block{
   margin: 100px 0;
 }
-.v-dialog.add-form, .v-dialog.edit-form{
+.v-dialog.add-form, .v-dialog.edit-form, .v-dialog.delete-form{
   
   form{
     padding: 25px;
