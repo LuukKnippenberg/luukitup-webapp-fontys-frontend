@@ -7,7 +7,7 @@
         :search="search"
         v-bind:loading="loading"
         loading-text="Projecten Laden... Even geduld"
-        sort-by="name"
+        sort-by="title"
         class="elevation-1"
       >
         <template v-slot:top>
@@ -95,8 +95,8 @@
         <!-- Template Delete and Edit Buttons -->
         <template v-slot:item.actions="{ item }">
           
-          <v-icon color="accent" small class="mr-2" @click="OpenEdit(item)" id="edit-form-open">mdi-pencil</v-icon>
-          <v-icon color="error" small @click="OpenDelete(item.id, item.title)" id="delete-form-open"> mdi-delete </v-icon>
+          <v-icon color="accent" small class="mr-2" @click="OpenEdit(item)" :id="'edit-form-open-' + item.id">mdi-pencil</v-icon>
+          <v-icon color="error" small @click="OpenDelete(item.id, item.title)" :id="'delete-form-open-' + item.id"> mdi-delete </v-icon>
         </template>
         <!-- /Template Delete and Edit Buttons -->
 
@@ -125,6 +125,7 @@
                     required
                     @input="$v.editTitle.$touch()"
                     @blur="$v.editTitle.$touch()"
+                    id="edit-form-title"
                   ></v-text-field>
 
                   <v-text-field
@@ -134,6 +135,7 @@
                     required
                     @input="$v.editDescription.$touch()"
                     @blur="$v.editDescription.$touch()"
+                    id="edit-form-description"
                   ></v-text-field>
 
                   <v-text-field
@@ -142,6 +144,7 @@
                     label="Link to Project"
                     @input="$v.editLinkToProject.$touch()"
                     @blur="$v.editLinkToProject.$touch()"
+                    id="edit-form-link"
                   ></v-text-field>
 
                   <!--  
@@ -157,13 +160,14 @@
                     label="Featured Project"
                     @change="$v.editFeatured.$touch()"
                     @blur="$v.editFeatured.$touch()"
+                    id="edit-form-featured"
                   ></v-checkbox>
 
                   <!-- <v-divider></v-divider> -->
 
-                  <v-btn color="success" class="mr-4" @click="submitEdit">Edit</v-btn>
-                  <v-btn class="mr-4" @click="clearEdit">clear</v-btn>
-                  <v-btn color="error" class="mr-4" @click="cancelEdit">Cancel</v-btn>
+                  <v-btn color="success" class="mr-4" @click="submitEdit" id="confirm-edit">Edit</v-btn>
+                  <v-btn class="mr-4" @click="clearEdit" id="clear-edit">clear</v-btn>
+                  <v-btn color="error" class="mr-4" @click="cancelEdit" id="cancel-edit">Cancel</v-btn>
                 </form>
               </template>
             </v-card>
@@ -181,8 +185,8 @@
                 Delete Project {{this.deleteTitle}}
               </v-card-title>
               <form>
-                <v-btn color="success" class="mr-4" @click="SubmitDelete">Delete</v-btn>
-                <v-btn color="error" class="mr-4" @click="CancelDelete">Cancel</v-btn>
+                <v-btn color="success" class="mr-4" @click="SubmitDelete" id="confirm-delete">Delete</v-btn>
+                <v-btn color="error" class="mr-4" @click="CancelDelete" id="cancel-delete">Cancel</v-btn>
               </form>
               
             </v-card>

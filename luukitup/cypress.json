@@ -2,8 +2,10 @@
   "pluginsFile": "tests/e2e/plugins/index.js",
   "projectId": "rbggys",
   "env": {
-    "test_title": "Cypress Project",
+    "test_title": "!Cypress Project",
     "test_description": "Cypress is a nice tool for E2E testing",
-    "test_linkToProject": "https://www.luukitup.nl"
+    "test_linkToProject": "https://www.luukitup.nl",
+    "test_title_edit": "!Cypress Project Edit",
+    "test_description_edit": "Cypress is a nice tool for E2E testing Edit"
   }
 }
