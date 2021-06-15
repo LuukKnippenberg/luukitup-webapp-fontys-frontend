@@ -1,7 +1,6 @@
 // https://docs.cypress.io/api/introduction/api.html
 
 let newId;
-const newTitle = "Nieuwe Titel";
 
 describe('Project Form Tests', () => {
 
@@ -18,6 +17,7 @@ describe('Project Form Tests', () => {
     cy.get('input[id=add-form-featured]').check({force: true});
     cy.intercept({
       method: 'POST',
+      url: '/Project/Add'
     })
     .as('POST-Response')
     cy.get('button[id=add-form-submit]').click()
@@ -41,8 +41,8 @@ describe('Project Form Tests', () => {
   })
 
   it('Should see the edited item', () => {   
-    cy.get('tbody > :nth-child(1) > :nth-child(1)')
-    cy.contains(Cypress.env('test_title_edit'))
+    cy.get('tbody > :nth-child(1) > :nth-child(1)');
+    cy.contains(Cypress.env('test_title_edit'));
   })
 
   it('Should delete the new item', () => {   
