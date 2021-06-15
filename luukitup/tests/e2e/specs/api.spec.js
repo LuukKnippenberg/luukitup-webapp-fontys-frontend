@@ -1,5 +1,5 @@
 // https://docs.cypress.io/api/introduction/api.html
-
+/*
 let newId;
 const newTitle = "Nieuwe Titel";
 
@@ -53,3 +53,4 @@ describe('API Tests', () => {
   //#endregion Add, Get, Edit and Delete Project
 
 })
+*/

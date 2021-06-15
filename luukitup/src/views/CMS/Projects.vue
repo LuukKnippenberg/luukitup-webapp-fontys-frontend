@@ -7,7 +7,7 @@
         :search="search"
         v-bind:loading="loading"
         loading-text="Projecten Laden... Even geduld"
-        sort-by="name"
+        sort-by="title"
         class="elevation-1"
       >
         <template v-slot:top>
@@ -21,7 +21,7 @@
             <div class="text-center">
               <v-dialog v-model="dialog" width="750" content-class="add-form" :retain-focus="false">
                 <template v-slot:activator="{ on, attrs }">
-                  <v-btn color="success" v-bind="attrs" v-on="on" outlined tile>Add</v-btn>
+                  <v-btn color="success" v-bind="attrs" v-on="on" outlined tile id="add-form-open">Add</v-btn>
                 </template>
 
                 <v-card>
@@ -40,6 +40,7 @@
                         required
                         @input="$v.title.$touch()"
                         @blur="$v.title.$touch()"
+                        id="add-form-title"
                       ></v-text-field>
 
                       <v-text-field
@@ -49,6 +50,7 @@
                         required
                         @input="$v.description.$touch()"
                         @blur="$v.description.$touch()"
+                        id="add-form-description"
                       ></v-text-field>
 
                       <v-text-field
@@ -57,6 +59,7 @@
                         label="Link to Project"
                         @input="$v.linkToProject.$touch()"
                         @blur="$v.linkToProject.$touch()"
+                        id="add-form-linkToProject"
                       ></v-text-field>
 
                       <!--  
@@ -72,13 +75,14 @@
                         label="Featured Project"
                         @change="$v.featured.$touch()"
                         @blur="$v.featured.$touch()"
+                        id="add-form-featured"
                       ></v-checkbox>
 
                       <!-- <v-divider></v-divider> -->
 
-                      <v-btn color="success" class="mr-4" @click="submit">Add</v-btn>
-                      <v-btn class="mr-4" @click="clear">clear</v-btn>
-                      <v-btn color="error" class="mr-4" @click="cancel">Cancel</v-btn>
+                      <v-btn color="success" class="mr-4" @click="submit" id="add-form-submit">Add</v-btn>
+                      <v-btn class="mr-4" @click="clear" id="add-form-clear">clear</v-btn>
+                      <v-btn color="error" class="mr-4" @click="cancel" id="add-form-cancel">Cancel</v-btn>
                     </form>
                   </template>
                 </v-card>
@@ -91,8 +95,8 @@
         <!-- Template Delete and Edit Buttons -->
         <template v-slot:item.actions="{ item }">
           
-          <v-icon color="accent" small class="mr-2" @click="OpenEdit(item)">mdi-pencil</v-icon>
-          <v-icon color="error" small @click="DeleteProject(item.id)"> mdi-delete </v-icon>
+          <v-icon color="accent" small class="mr-2" @click="OpenEdit(item)" :id="'edit-form-open-' + item.id">mdi-pencil</v-icon>
+          <v-icon color="error" small @click="OpenDelete(item.id, item.title)" :id="'delete-form-open-' + item.id"> mdi-delete </v-icon>
         </template>
         <!-- /Template Delete and Edit Buttons -->
 
@@ -101,7 +105,7 @@
         There was an error receiving the Projects
       </v-alert>
 
-      <!-- Template Edit Project -->
+      <!-- Template Edit Project Dialog -->
       <template>
         <div class="text-center">
           <v-dialog v-model="editDialog" width="750" content-class="edit-form" :retain-focus="false">
@@ -121,6 +125,7 @@
                     required
                     @input="$v.editTitle.$touch()"
                     @blur="$v.editTitle.$touch()"
+                    id="edit-form-title"
                   ></v-text-field>
 
                   <v-text-field
@@ -130,6 +135,7 @@
                     required
                     @input="$v.editDescription.$touch()"
                     @blur="$v.editDescription.$touch()"
+                    id="edit-form-description"
                   ></v-text-field>
 
                   <v-text-field
@@ -138,6 +144,7 @@
                     label="Link to Project"
                     @input="$v.editLinkToProject.$touch()"
                     @blur="$v.editLinkToProject.$touch()"
+                    id="edit-form-link"
                   ></v-text-field>
 
                   <!--  
@@ -153,20 +160,40 @@
                     label="Featured Project"
                     @change="$v.editFeatured.$touch()"
                     @blur="$v.editFeatured.$touch()"
+                    id="edit-form-featured"
                   ></v-checkbox>
 
                   <!-- <v-divider></v-divider> -->
 
-                  <v-btn color="success" class="mr-4" @click="submitEdit">Edit</v-btn>
-                  <v-btn class="mr-4" @click="clearEdit">clear</v-btn>
-                  <v-btn color="error" class="mr-4" @click="cancelEdit">Cancel</v-btn>
+                  <v-btn color="success" class="mr-4" @click="submitEdit" id="confirm-edit">Edit</v-btn>
+                  <v-btn class="mr-4" @click="clearEdit" id="clear-edit">clear</v-btn>
+                  <v-btn color="error" class="mr-4" @click="cancelEdit" id="cancel-edit">Cancel</v-btn>
                 </form>
               </template>
             </v-card>
           </v-dialog>
         </div>
       </template>
-      <!-- /Template Edit Project -->
+      <!-- /Template Edit Project Dialog -->
+
+      <!-- Template Delete Project Dialog -->
+      <template>
+        <div class="text-center">
+          <v-dialog v-model="deleteDialog" width="750" content-class="delete-form" :retain-focus="false">
+            <v-card>
+              <v-card-title class="text-h5 grey lighten-2">
+                Delete Project {{this.deleteTitle}}
+              </v-card-title>
+              <form>
+                <v-btn color="success" class="mr-4" @click="SubmitDelete" id="confirm-delete">Delete</v-btn>
+                <v-btn color="error" class="mr-4" @click="CancelDelete" id="cancel-delete">Cancel</v-btn>
+              </form>
+              
+            </v-card>
+          </v-dialog>
+        </div>
+      </template>
+      <!-- /Template Delete Project Dialog -->
 
     </v-container>
   </section>
@@ -255,13 +282,18 @@
         editFeaturedErrors: '',
         editLinkToProjectErrors: '',
         editFeaturedImageUrl: 'https://luukitup.nl',
-        editId: ''
+        editId: '',
+        deleteDialog: false,
+        deleteId: '',
+        deleteTitle: '',
     }),
       
     methods: {
       submit () {
         this.$v.$touch();
         this.AddProject();
+
+        this.clear();
       },
       clear () {
         this.$v.$reset();
@@ -300,7 +332,22 @@
         
         this.editId = item.id;
       },
-      
+
+      OpenDelete(deleteId, deleteTitle){
+        this.deleteId = deleteId;
+        this.deleteTitle = deleteTitle;
+        this.deleteDialog = true;
+      },
+      SubmitDelete(){
+        this.DeleteProject(this.deleteId);
+        this.CancelDelete();
+      },
+      CancelDelete(){
+        this.deleteId = '';
+        this.deleteTitle = '';
+        this.deleteDialog = false;
+      },
+
       AddProject()
       {
         const config = {
@@ -320,7 +367,7 @@
             this.success = result.data;
             this.loading = false;
             this.dialog = false;
-            console.log(this.projects);
+            //console.log(this.projects);
             this.GetList();
           })
           .catch((error) => {
@@ -350,7 +397,7 @@
             this.success = result.data;
             this.loading = false;
             this.editDialog = false;
-            console.log(this.success);
+            //console.log(this.success);
             this.GetList();
           })
           .catch((error) => {
@@ -361,7 +408,7 @@
       },
       DeleteProject(id)
       {
-        console.log(id)
+        //console.log(id)
         const config = {
           method: 'delete',
           url: "/Project/Delete/" + id
@@ -370,7 +417,7 @@
           .then((result) => {
             this.success = result.data;
             this.loading = false;
-            console.log(this.projects);
+            //console.log(this.projects);
             this.GetList();
           })
           .catch((error) => {
@@ -388,7 +435,7 @@
           .then((result) => {
             this.projects = result.data;
             this.loading = false;
-            console.log(this.projects);
+            //console.log(this.projects);
           })
           .catch((error) => {
             this.error = true;
@@ -409,7 +456,7 @@
 .cms-block{
   margin: 100px 0;
 }
-.v-dialog.add-form, .v-dialog.edit-form{
+.v-dialog.add-form, .v-dialog.edit-form, .v-dialog.delete-form{
   
   form{
     padding: 25px;
