@@ -24,12 +24,12 @@ describe('Project Form Tests', () => {
     cy.wait('@POST-Response').then((result) => {
       newId = result.response.body.id;
     })
+
+    // Check if the new Project exists
+    cy.get('tbody > :nth-child(1) > :nth-child(1)');
+    cy.contains(Cypress.env('test_title'));
   })
 
-  it('Should see the new item', () => {   
-    cy.get('tbody > :nth-child(1) > :nth-child(1)')
-    cy.contains(Cypress.env('test_title'))
-  })
 
   it('Should edit the new item', () => {   
     cy.get('button[id=edit-form-open-'+ newId +']').click();
@@ -38,19 +38,18 @@ describe('Project Form Tests', () => {
     cy.get('input[id=edit-form-title]').type(Cypress.env('test_title_edit'));
     cy.get('input[id=edit-form-description]').type(Cypress.env('test_description_edit'));
     cy.get('button[id=confirm-edit]').click();
+
+    // Check if the edited Project exists
+    cy.get('tbody > :nth-child(1) > :nth-child(1)')
+    cy.contains(Cypress.env('test_title_edit'))
   })
 
-  it('Should see the edited item', () => {   
-    cy.get('tbody > :nth-child(1) > :nth-child(1)');
-    cy.contains(Cypress.env('test_title_edit'));
-  })
 
   it('Should delete the new item', () => {   
     cy.get('button[id=delete-form-open-'+ newId +']').click();
     cy.get('button[id=confirm-delete]').click();
-  })
 
-  it('Should not see the new and edited item', () => {   
+    // Check if the delete Project is gone
     cy.get('tbody > :nth-child(1) > :nth-child(1)')
     cy.contains(Cypress.env('test_title_edit')).should('not.exist');
   })
