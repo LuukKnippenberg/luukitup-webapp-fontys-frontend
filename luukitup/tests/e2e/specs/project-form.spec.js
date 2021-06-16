@@ -5,7 +5,7 @@ let newId;
 describe('Project Form Tests', () => {
 
   beforeEach(() => {
-    cy.visit('http://localhost:8080/CMS/Projecten')
+    cy.visit('/CMS/Projecten')
   })
 
   //#region Add, Get, Edit and Delete Project
@@ -15,6 +15,7 @@ describe('Project Form Tests', () => {
     cy.get('input[id=add-form-description]').type(Cypress.env('test_description'));
     cy.get('input[id=add-form-linkToProject]').type(Cypress.env('test_linkToProject'));
     cy.get('input[id=add-form-featured]').check({force: true});
+    
     cy.intercept({
       method: 'POST',
       url: '/Project/Add'
@@ -54,5 +55,19 @@ describe('Project Form Tests', () => {
     cy.contains(Cypress.env('test_title_edit')).should('not.exist');
   })
   //#endregion Add, Get, Edit and Delete Project
+
+  //#region Fail to Add, Get, Edit and Delete
+  it('Should fail to add a new item', () => {   
+    cy.get('button[id=add-form-open]').click();
+    cy.get('input[id=add-form-title]').type(Cypress.env('test_title'));
+    cy.get('input[id=add-form-linkToProject]').type(Cypress.env('test_linkToProject'));
+    cy.get('input[id=add-form-featured]').check({force: true});
+    cy.get('button[id=add-form-submit]').should('be.disabled')
+
+    // Check if the new Project exists
+    //cy.get('tbody > :nth-child(1) > :nth-child(1)');
+    cy.contains(Cypress.env('test_title')).should('not.exist');
+  })
+  //#endregion Fail to Add, Get, Edit and Delete
 
 })

@@ -7,5 +7,8 @@
     "test_linkToProject": "https://www.luukitup.nl",
     "test_title_edit": "!Cypress Project Edit",
     "test_description_edit": "Cypress is a nice tool for E2E testing Edit"
-  }
+  },
+  "baseUrl": "http://localhost:8080",
+  "viewportWidth": 1920,
+  "viewportHeight": 1080
 }
