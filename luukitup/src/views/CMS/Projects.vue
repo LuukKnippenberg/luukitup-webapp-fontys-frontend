@@ -30,60 +30,62 @@
                   </v-card-title>
 
                   <template>
+                    <ValidationObserver ref="observer" v-slot="{ invalid }">
                     <form class="add-form">
+                      <ValidationProvider
+                        v-slot="{ errors }"
+                        name="Title"
+                        rules="required"
+                      >
+                        <v-text-field
+                          v-model="title"
+                          :error-messages="errors"
+                          :counter="80"
+                          label="Title"
+                          required
+                          @input="$v.title.$touch()"
+                          @blur="$v.title.$touch()"
+                          id="add-form-title"
+                        ></v-text-field>
+                      </ValidationProvider>
 
-                      <v-text-field
-                        v-model="title"
-                        :error-messages="titleErrors"
-                        :counter="80"
-                        label="Title"
-                        required
-                        @input="$v.title.$touch()"
-                        @blur="$v.title.$touch()"
-                        id="add-form-title"
-                      ></v-text-field>
-
-                      <v-text-field
-                        v-model="description"
-                        :error-messages="descriptionErrors"
-                        label="Description"
-                        required
-                        @input="$v.description.$touch()"
-                        @blur="$v.description.$touch()"
-                        id="add-form-description"
-                      ></v-text-field>
+                      <ValidationProvider
+                        v-slot="{ errors }"
+                        name="Description"
+                        rules="required"
+                      >
+                        <v-text-field
+                          v-model="description"
+                          :error-messages="errors"
+                          label="Description"
+                          required
+                          @input="$v.description.$touch()"
+                          @blur="$v.description.$touch()"
+                          id="add-form-description"
+                        ></v-text-field>
+                      </ValidationProvider>
 
                       <v-text-field
                         v-model="linkToProject"
-                        :error-messages="linkToProjectErrors"
                         label="Link to Project"
                         @input="$v.linkToProject.$touch()"
                         @blur="$v.linkToProject.$touch()"
                         id="add-form-linkToProject"
                       ></v-text-field>
 
-                      <!--  
-                      <v-file-input
-                        truncate-length="15"
-                        label="Featured image"
-                      ></v-file-input>
-                      -->
-
                       <v-checkbox
                         v-model="featured"
-                        :error-messages="featuredErrors"
                         label="Featured Project"
                         @change="$v.featured.$touch()"
                         @blur="$v.featured.$touch()"
                         id="add-form-featured"
                       ></v-checkbox>
 
-                      <!-- <v-divider></v-divider> -->
-
-                      <v-btn color="success" class="mr-4" @click="submit" id="add-form-submit">Add</v-btn>
+                      <v-btn color="success" class="mr-4" @click="submit" id="add-form-submit" :disabled="invalid">Add</v-btn>
                       <v-btn class="mr-4" @click="clear" id="add-form-clear">clear</v-btn>
                       <v-btn color="error" class="mr-4" @click="cancel" id="add-form-cancel">Cancel</v-btn>
                     </form>
+                    </ValidationObserver>
                   </template>
                 </v-card>
               </v-dialog>
@@ -94,7 +96,6 @@
         
         <!-- Template Delete and Edit Buttons -->
         <template v-slot:item.actions="{ item }">
-          
           <v-icon color="accent" small class="mr-2" @click="OpenEdit(item)" :id="'edit-form-open-' + item.id">mdi-pencil</v-icon>
           <v-icon color="error" small @click="OpenDelete(item.id, item.title)" :id="'delete-form-open-' + item.id"> mdi-delete </v-icon>
         </template>
@@ -115,60 +116,55 @@
               </v-card-title>
 
               <template>
+                <ValidationObserver ref="observer" v-slot="{ invalid }">
                 <form class="edit-form">
 
-                  <v-text-field
-                    v-model="editTitle"
-                    :error-messages="editTitleErrors"
-                    :counter="80"
-                    label="Title"
-                    required
-                    @input="$v.editTitle.$touch()"
-                    @blur="$v.editTitle.$touch()"
-                    id="edit-form-title"
-                  ></v-text-field>
+                  <ValidationProvider
+                        v-slot="{ errors }"
+                        name="Title"
+                        rules="required|max:80"
+                      >
+                    <v-text-field
+                      v-model="editTitle"
+                      :error-messages="errors"
+                      :counter="80"
+                      label="Title"
+                      required
+                      id="edit-form-title"
+                    ></v-text-field>
+                  </ValidationProvider>
 
-                  <v-text-field
-                    v-model="editDescription"
-                    :error-messages="editDescriptionErrors"
-                    label="Description"
-                    required
-                    @input="$v.editDescription.$touch()"
-                    @blur="$v.editDescription.$touch()"
-                    id="edit-form-description"
-                  ></v-text-field>
+                  <ValidationProvider
+                    v-slot="{ errors }"
+                    name="Description"
+                    rules="required"
+                  >
+                    <v-text-field
+                      v-model="editDescription"
+                      :error-messages="errors"
+                      label="Description"
+                      required
+                      id="edit-form-description"
+                    ></v-text-field>
+                  </ValidationProvider>
 
                   <v-text-field
                     v-model="editLinkToProject"
-                    :error-messages="editLinkToProjectErrors"
                     label="Link to Project"
-                    @input="$v.editLinkToProject.$touch()"
-                    @blur="$v.editLinkToProject.$touch()"
                     id="edit-form-link"
                   ></v-text-field>
 
-                  <!--  
-                  <v-file-input
-                    truncate-length="15"
-                    label="Featured image"
-                  ></v-file-input>
-                  -->
-
                   <v-checkbox
                     v-model="editFeatured"
-                    :error-messages="editFeaturedErrors"
                     label="Featured Project"
-                    @change="$v.editFeatured.$touch()"
-                    @blur="$v.editFeatured.$touch()"
                     id="edit-form-featured"
                   ></v-checkbox>
 
-                  <!-- <v-divider></v-divider> -->
-
-                  <v-btn color="success" class="mr-4" @click="submitEdit" id="confirm-edit">Edit</v-btn>
+                  <v-btn color="success" class="mr-4" @click="submitEdit" id="confirm-edit" :disabled="invalid">Edit</v-btn>
                   <v-btn class="mr-4" @click="clearEdit" id="clear-edit">clear</v-btn>
                   <v-btn color="error" class="mr-4" @click="cancelEdit" id="cancel-edit">Cancel</v-btn>
                 </form>
+                </ValidationObserver>
               </template>
             </v-card>
           </v-dialog>
@@ -201,55 +197,24 @@
 
 <script>
   import { validationMixin } from 'vuelidate'
-  import { required, maxLength } from 'vuelidate/lib/validators'
+
+  import { required, max } from "vee-validate/dist/rules";
+  import { extend, ValidationObserver, ValidationProvider, setInteractionMode,} from "vee-validate";
+
+  setInteractionMode("eager");
+
+  extend("required", {
+    ...required,
+    message: "{_field_} can not be empty",
+  });
+
+  extend("max", {
+    ...max,
+    message: "{_field_} can not be longer than the max length",
+  });
+
   export default {
     mixins: [validationMixin],
-    validations: {
-      title: { required, maxLength: maxLength(80) },
-      description: { required },
-      linkToProject: { },
-      featured: {
-        checked (val) {
-          return val
-        },
-      },
-      editTitle: { required, maxLength: maxLength(80) },
-      editDescription: { required },
-      editLinkToProject: { },
-      editFeatured: {
-        checked (val) {
-          return val
-        },
-      },
-    },
-    computed: {
-      titleErrors () {
-        const errors = []
-        if (!this.$v.title.$dirty) return errors
-        !this.$v.title.maxLength && errors.push('Title must be at most 80 characters long')
-        !this.$v.title.required && errors.push('Title is required.')
-        return errors
-      },
-      descriptionErrors () {
-        const errors = []
-        if (!this.$v.description.$dirty) return errors
-        !this.$v.description.required && errors.push('Description is required.')
-        return errors
-      },
-      editTitleErrors () {
-        const errors = []
-        if (!this.$v.editTitle.$dirty) return errors
-        !this.$v.editTitle.maxLength && errors.push('Title must be at most 80 characters long')
-        !this.$v.editTitle.required && errors.push('Title is required.')
-        return errors
-      },
-      editDescriptionErrors () {
-        const errors = []
-        if (!this.$v.editDescription.$dirty) return errors
-        !this.$v.editDescription.required && errors.push('Description is required.')
-        return errors
-      }
-    },
     data: () => ({
         search: "",
         loading: true,
@@ -288,15 +253,17 @@
         deleteTitle: '',
     }),
       
+    components: {
+      ValidationProvider,
+      ValidationObserver
+    },
+
     methods: {
       submit () {
-        this.$v.$touch();
         this.AddProject();
-
         this.clear();
       },
       clear () {
-        this.$v.$reset();
         this.title = '';
         this.description = '';
         this.featured = false;
@@ -307,11 +274,9 @@
         this.dialog = false;
       },
       submitEdit () {
-        this.$v.$touch();
         this.EditProject();
       },
       clearEdit () {
-        this.$v.$reset();
         this.editTitle = '';
         this.editDescription = '';
         this.editFeatured = false;
@@ -350,6 +315,9 @@
 
       AddProject()
       {
+        if(!this.error){
+          console.log(this.error)
+        }
         const config = {
           method: 'POST',
           url: "/Project/Add",
